@@ -1,0 +1,507 @@
+/* Variables CSS */
+:root {
+    --cajas-width: 25%; /* Ancho de la columna de Cajas */
+    --ventas-gastos-width: 40%; /* Ancho de la columna de Ventas y Gastos */
+    --totales-width: 30%; /* Ancho de la columna de Totales */
+    --info-width: 100%; /* Ancho de la sección de Información en desktop */
+    --container-padding: 10px; /* Padding del contenedor general */
+    --gap: 20px; /* Espacio entre columnas */
+    --color-verde: #4CAF50;
+    --color-azul: #2196F3;
+    --color-morado: #9C27B0;
+    --color-amarillo: #ffc107;
+    --color-blanco: #fff;
+    --color-fondo: #f2f2f2;
+    --border-radius: 8px;
+    --font-size-base: 16px;
+    --input-width: 100%;
+    --btn-height: 30px;
+    --btn-size: 30px;
+    --segment-background: #f9f9f9;
+    --segment-border: #e0e0e0;
+    --segment-padding: 10px;
+    --highlight-color: #FFEB3B; /* Color de resaltado para los totales */
+    --guardar-color: #4CAF50;
+    --guardar-hover: #388E3C;
+    --invalid-color: #f44336; /* Rojo para campos inválidos */
+}
+
+/* Estilos Generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--color-fondo);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    background: var(--color-blanco);
+    padding: var(--container-padding);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
+/* Cuadro de Información de Cuadre */
+.info-wrapper {
+    border: 2px solid var(--color-morado);
+    background-color: #f3e5f5;
+    border-radius: var(--border-radius);
+    padding: 15px;
+}
+
+.info-form {
+    width: 100%;
+}
+
+.info-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.info-group {
+    flex: 1 1 22%; /* Aproximadamente 4 campos por fila */
+    display: flex;
+    flex-direction: column;
+}
+
+.info-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.info-group input {
+    padding: 8px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: var(--input-width);
+}
+
+/* Mostrar ID Cuadre como texto */
+#id-cuadre-text {
+    background-color: #e0e0e0;
+    padding: 5px 10px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* Clase para Campos Inválidos */
+.input-invalid {
+    border-color: var(--invalid-color) !important;
+    background-color: #ffe6e6;
+}
+
+/* Botones de Instrucciones Circulares */
+.instruction-btn {
+    margin-top: 10px;
+    background-color: var(--color-morado);
+    color: var(--color-blanco);
+    border: none;
+    border-radius: 50%;
+    width: var(--btn-size);
+    height: var(--btn-size);
+    cursor: pointer;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.instruction-btn:hover {
+    background-color: #7b1fa2;
+}
+
+/* Botones de Deshabilitar/Habilitar */
+.toggle-btn {
+    background-color: var(--color-amarillo);
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.toggle-btn:hover {
+    background-color: #ffb300;
+}
+
+/* Secciones Principales */
+main {
+    flex: 1;
+}
+
+.sections-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: var(--gap);
+    padding-top: 10px;
+}
+
+/* Columna de Cajas */
+.cajas-wrapper {
+    border: 2px solid var(--color-verde);
+    background-color: #e8f5e9;
+    border-radius: var(--border-radius);
+    width: var(--cajas-width);
+    padding: 15px;
+    position: relative;
+}
+
+.cajas-wrapper h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.cajas-wrapper .instruction-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: var(--color-verde);
+}
+
+.cajas-wrapper .instruction-btn:hover {
+    background-color: #388E3C;
+}
+
+.caja {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #fafafa;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.caja.disabled {
+    opacity: 0.6;
+}
+
+.caja h3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    font-size: 1.1em;
+}
+
+.denomination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.denomination label {
+    flex: 1;
+}
+
+.denomination input {
+    width: 100%;
+    padding: 5px;
+    text-align: right;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.subtotal {
+    font-weight: bold;
+    color: #555;
+}
+
+.totales-caja p {
+    margin: 5px 0;
+    font-weight: bold;
+}
+
+/* Columna de Ventas y Gastos */
+.ventas-gastos-wrapper {
+    width: var(--ventas-gastos-width);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Sección de Ventas */
+.ventas-wrapper {
+    border: 2px solid #FF9800;
+    background-color: #fff3e0;
+    border-radius: var(--border-radius);
+    padding: 15px;
+}
+
+.ventas-wrapper h2 {
+    color: #333;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.ventas-wrapper .instruction-btn {
+    float: right;
+    background-color: #FF9800;
+}
+
+.ventas-wrapper .instruction-btn:hover {
+    background-color: #F57C00;
+}
+
+/* Ventas Secciones */
+.venta-secciones {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.venta-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.venta-wrapper label {
+    flex: 1;
+    font-weight: bold;
+}
+
+.venta-wrapper input {
+    flex: 2;
+    padding: 8px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /* Eliminamos los spinners */
+    -moz-appearance: textfield;
+}
+
+.venta-wrapper input::-webkit-outer-spin-button,
+.venta-wrapper input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Sección de Gastos */
+.gastos-wrapper {
+    border: 2px solid var(--color-azul);
+    background-color: #e3f2fd;
+    border-radius: var(--border-radius);
+    padding: 15px;
+}
+
+.gastos-wrapper h2 {
+    color: #333;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.gastos-wrapper .instruction-btn {
+    float: right;
+    background-color: var(--color-azul);
+}
+
+.gastos-wrapper .instruction-btn:hover {
+    background-color: #1976D2;
+}
+
+/* Tabla de Gastos */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+.gasto-row input {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Botón de Agregar Gasto */
+.agregar-gasto-btn {
+    background-color: #007bff;
+    color: var(--color-blanco);
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.agregar-gasto-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Columna de Totales */
+.totales-wrapper {
+    border: 2px solid var(--color-verde);
+    background-color: #e8f5e9;
+    border-radius: var(--border-radius);
+    width: var(--totales-width);
+    padding: 15px;
+    position: relative;
+}
+
+.totales-wrapper h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.totales-wrapper .instruction-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: var(--color-verde);
+}
+
+.totales-wrapper .instruction-btn:hover {
+    background-color: #388E3C;
+}
+
+#totales-globales {
+    font-size: 1em;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.totales-segmented .segment {
+    background-color: var(--segment-background);
+    border: 1px solid var(--segment-border);
+    border-radius: 5px;
+    padding: var(--segment-padding);
+}
+
+.totales-segmented hr {
+    border: none;
+    border-top: 1px solid var(--segment-border);
+    margin: 10px 0;
+}
+
+#totales-globales p {
+    margin: 8px 0;
+}
+
+.highlight {
+    background-color: var(--highlight-color);
+    padding: 5px;
+    border-radius: 4px;
+}
+
+/* Botón de Guardar Cuadre */
+.guardar-cuadre-btn {
+    background-color: var(--guardar-color);
+    color: var(--color-blanco);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.guardar-cuadre-btn:hover {
+    background-color: var(--guardar-hover);
+}
+
+/* Responsividad */
+@media (max-width: 1024px) {
+    .sections-container {
+        flex-direction: column;
+    }
+    
+    .cajas-wrapper, .ventas-gastos-wrapper, .totales-wrapper {
+        width: 100%; /* Ocupan todo el ancho en pantallas pequeñas */
+    }
+}
+
+@media (max-width: 800px) {
+    .info-row {
+        flex-direction: column;
+    }
+
+    .info-group {
+        flex: 1 1 100%;
+    }
+
+    .sections-container {
+        flex-direction: column;
+    }
+    
+    .cajas-wrapper, .ventas-gastos-wrapper, .totales-wrapper {
+        width: 100%; /* Ocupan todo el ancho en pantallas pequeñas */
+    }
+
+    .venta-secciones {
+        flex-direction: column;
+    }
+
+    .venta-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .venta-wrapper label, .venta-wrapper input {
+        width: 100%;
+    }
+
+    .toggle-btn {
+        width: 100%;
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --container-padding: 10px;
+        --gap: 10px;
+    }
+
+    .info-wrapper, .cajas-wrapper, .gastos-wrapper, .ventas-wrapper, .totales-wrapper {
+        padding: 10px;
+    }
+
+    .info-group, .venta-wrapper {
+        flex: 1 1 100%;
+    }
+
+    .info-group label, .venta-wrapper label {
+        font-size: 0.9em;
+    }
+
+    .info-group input, .venta-wrapper input {
+        font-size: 0.9em;
+    }
+
+    .instruction-btn, .toggle-btn, .agregar-gasto-btn, .guardar-cuadre-btn {
+        font-size: 0.8em;
+        padding: 5px;
+    }
+
+    #totales-globales {
+        font-size: 1em;
+    }
+
+    .cajas-wrapper, .gastos-wrapper, .ventas-wrapper, .totales-wrapper {
+        padding: 10px;
+    }
+}
