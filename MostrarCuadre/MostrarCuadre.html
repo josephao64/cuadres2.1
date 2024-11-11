@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mostrar Cuadres</title>
+    <!-- Enlace al archivo CSS externo -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Enlace a la librería de SweetAlert2 para alertas elegantes -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Firebase App (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <!-- Firebase Firestore (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <!-- Enlace al archivo db.js (configuración de Firebase) -->
+    <script src="../db.js"></script>
+    <!-- Enlace al archivo script.js (defer para asegurar que se cargue después del DOM) -->
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Encabezado de la página -->
+        <header>
+            <h1>Listado de Cuadres</h1>
+        </header>
+
+        <!-- Sección de Listado de Cuadres -->
+        <section id="lista-cuadres" class="lista-cuadres">
+            <!-- Las tarjetas de cuadres se agregarán aquí dinámicamente mediante JavaScript -->
+        </section>
+
+        <!-- Sección de Detalle de Cuadre (oculta por defecto) -->
+        <section id="detalle-cuadre" class="detalle-cuadre" style="display: none;">
+            <h2>Detalle de Cuadre</h2>
+            <form id="detalle-form">
+                <!-- Información Básica del Cuadre -->
+                <div class="info-row">
+                    <div class="info-group">
+                        <label for="detalle-sucursal">Sucursal:</label>
+                        <input type="text" id="detalle-sucursal" name="sucursal" readonly>
+                    </div>
+                    <div class="info-group">
+                        <label for="detalle-fecha">Fecha:</label>
+                        <input type="date" id="detalle-fecha" name="fecha" required>
+                    </div>
+                    <div class="info-group">
+                        <label for="detalle-caja-chica-inicial">Caja Chica Inicial (Q):</label>
+                        <input type="number" id="detalle-caja-chica-inicial" name="caja-chica-inicial" min="0" step="0.01" required>
+                    </div>
+                </div>
+                <p><strong>ID Cuadre:</strong> <span id="detalle-id-cuadre">1</span></p>
+
+                <!-- Sección de Cajas -->
+                <section class="cajas-wrapper">
+                    <h3>Cajas</h3>
+                    <div id="detalle-cajas-container">
+                        <!-- Las cajas se agregarán aquí dinámicamente mediante JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Sección de Ventas -->
+                <section class="ventas-wrapper">
+                    <h3>Ventas</h3>
+                    <div class="venta-secciones">
+                        <!-- Venta Motorista -->
+                        <div class="venta-wrapper">
+                            <label for="detalle-venta-motorista">Venta Motorista (Q):</label>
+                            <input type="number" id="detalle-venta-motorista" name="venta-motorista" min="0" step="0.01" value="0" required>
+                        </div>
+
+                        <!-- Pedidos Ya -->
+                        <div class="venta-wrapper">
+                            <label for="detalle-venta-pedidos-ya">Pedidos Ya (Q):</label>
+                            <input type="number" id="detalle-venta-pedidos-ya" name="venta-pedidos-ya" min="0" step="0.01" value="0" required>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección de Gastos -->
+                <section class="gastos-wrapper">
+                    <h3>Gastos</h3>
+                    <table id="detalle-gastos-table">
+                        <thead>
+                            <tr>
+                                <th>Descripción</th>
+                                <th>Número Factura</th>
+                                <th>Total (Q)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas de gastos se agregarán aquí dinámicamente mediante JavaScript -->
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-secondary agregar-gasto-btn" id="detalle-agregar-gasto-btn">Agregar Gasto</button>
+                </section>
+
+                <!-- Sección de Datos Encargado -->
+                <section class="datos-encargado-wrapper">
+                    <h3>Datos Encargado</h3>
+                    <table id="detalle-datos-encargado-table">
+                        <thead>
+                            <tr>
+                                <th>Caja</th>
+                                <th>Cuenta Efectivo (Q)</th>
+                                <th>Venta Tarjeta (Q)</th>
+                                <th>Venta Motorista (Q)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas de datos del encargado se agregarán aquí dinámicamente mediante JavaScript -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total</th>
+                                <th id="detalle-total-cuenta-efectivo">0.00</th>
+                                <th id="detalle-total-venta-tarjeta">0.00</th>
+                                <th id="detalle-total-venta-motorista">0.00</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </section>
+
+                <!-- Sección de Datos Sistema -->
+                <section class="datos-sistema-wrapper">
+                    <h3>Datos Sistema</h3>
+                    <table id="detalle-datos-sistema-table">
+                        <thead>
+                            <tr>
+                                <th>Caja</th>
+                                <th>Cuenta Efectivo (Q)</th>
+                                <th>Venta Tarjeta (Q)</th>
+                                <th>Venta Motorista (Q)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las filas de datos del sistema se agregarán aquí dinámicamente mediante JavaScript -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total</th>
+                                <th id="detalle-total-sistema-cuenta-efectivo">0.00</th>
+                                <th id="detalle-total-sistema-venta-tarjeta">0.00</th>
+                                <th id="detalle-total-sistema-venta-motorista">0.00</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </section>
+
+                <!-- Sección de Totales -->
+                <section class="totales-wrapper">
+                    <h3>Totales</h3>
+                    <div id="detalle-totales-globales" class="totales-segmented">
+                        <div class="segment">
+                            <p><strong>Venta Efectivo Cajas:</strong> Q<span id="detalle-venta-efectivo-cajas">0.00</span></p>
+                            <p><strong>Venta Tarjeta:</strong> Q<span id="detalle-venta-tarjeta-total">0.00</span></p>
+                            <p><strong>Venta Motorista:</strong> Q<span id="detalle-venta-motorista-total">0.00</span></p>
+                            <p><strong>Pedidos Ya:</strong> Q<span id="detalle-venta-pedidos-ya-total">0.00</span></p>
+                            <p class="highlight"><strong>Total Ventas:</strong> Q<span id="detalle-total-ventas">0.00</span></p>
+                        </div>
+                        <hr>
+                        <div class="segment">
+                            <p><strong>Sobrante Ayer:</strong> Q<input type="number" id="detalle-sobrante-ayer" min="0" step="0.01" value="0" required></p>
+                            <p><strong>Venta Efectivo:</strong> Q<span id="detalle-venta-efectivo">0.00</span></p>
+                        </div>
+                        <hr>
+                        <div class="segment">
+                            <p><strong>Gastos:</strong> Q<span id="detalle-venta-total-gastos">0.00</span></p>
+                        </div>
+                        <hr>
+                        <div class="segment">
+                            <p class="highlight"><strong>Total a Depositar:</strong> Q<span id="detalle-total-depositar">0.00</span></p>
+                        </div>
+                        <hr>
+                        <!-- Control Administrativo -->
+                        <div class="segment">
+                            <h3>Control Administrativo</h3>
+                            <p><strong>Diferencia Efectivo:</strong> Q<span id="detalle-diferencia-efectivo">0.00</span></p>
+                            <p><strong>Diferencia Tarjeta:</strong> Q<span id="detalle-diferencia-tarjeta">0.00</span></p>
+                            <p><strong>Diferencia Motorista:</strong> Q<span id="detalle-diferencia-motorista">0.00</span></p>
+                            <p class="highlight"><strong>Diferencia Total:</strong> Q<span id="detalle-diferencia-total">0.00</span></p>
+                        </div>
+                    </div>
+                    <!-- Botones de Guardar y Cancelar -->
+                    <div class="buttons">
+                        <button type="button" id="guardar-detalle-btn" class="btn btn-success">Guardar Cambios</button>
+                        <button type="button" id="cancelar-detalle-btn" class="btn btn-danger">Cancelar</button>
+                    </div>
+                </section>
+            </form>
+        </section>
+    </div>
+</body>
+</html>

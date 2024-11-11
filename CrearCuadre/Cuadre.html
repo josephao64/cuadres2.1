@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cuadre de Caja</title>
+    <!-- Enlace al archivo CSS externo -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Enlace a la librería de SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Enlace a la librería de html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Firebase App (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <!-- Firebase Firestore (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <!-- Enlace al archivo db.js -->
+    <script src="../db.js"></script> <!-- Ajusta la ruta si es necesario -->
+    <!-- Enlace al archivo script.js (defer para asegurar que se cargue después del DOM) -->
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Secciones Principales -->
+        <main>
+            <div class="sections-container" id="sections-container">
+                <!-- Columna de Cajas -->
+                <section class="cajas-wrapper" id="cajas-container">
+                    <div class="section-header">
+                        <h2>Cajas</h2>
+                        <button class="instruction-btn" data-seccion="cajas">?</button>
+                    </div>
+                    <!-- Las cajas se agregarán aquí automáticamente -->
+                </section>
+
+                <!-- Columna de Ventas y Gastos -->
+                <section class="ventas-gastos-wrapper">
+                    <!-- Sección de Ventas -->
+                    <div class="ventas-wrapper">
+                        <div class="section-header">
+                            <h2>Ventas</h2>
+                            <button type="button" class="instruction-btn" data-seccion="ventas">?</button>
+                        </div>
+                        <div class="venta-secciones">
+                            <!-- Venta Motorista -->
+                            <div class="venta-wrapper">
+                                <label for="venta-motorista">Venta Motorista (Q):</label>
+                                <input type="number" id="venta-motorista" name="venta-motorista" min="0" step="0.01" required>
+                                <button type="button" class="toggle-btn" data-target="venta-motorista">Deshabilitar</button>
+                            </div>
+
+                            <!-- Pedidos Ya -->
+                            <div class="venta-wrapper">
+                                <label for="venta-pedidos-ya">Pedidos Ya (Q):</label>
+                                <input type="number" id="venta-pedidos-ya" name="venta-pedidos-ya" min="0" step="0.01" required>
+                                <button type="button" class="toggle-btn" data-target="venta-pedidos-ya">Deshabilitar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección de Gastos -->
+                    <div class="gastos-wrapper">
+                        <div class="section-header">
+                            <h2>Gastos</h2>
+                            <button type="button" class="instruction-btn" data-seccion="gastos">?</button>
+                        </div>
+                        <table id="gastos-table">
+                            <thead>
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th>Número Factura</th>
+                                    <th>Total (Q)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="gasto-row">
+                                    <td><input type="text" class="descripcion-gasto" placeholder="Descripción" required></td>
+                                    <td><input type="text" class="numero-factura-gasto" placeholder="Número Factura" required></td>
+                                    <td><input type="number" class="total-gasto" min="0" step="0.01" required></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="agregar-gasto-btn" id="agregar-gasto-btn">Agregar Gasto</button>
+                    </div>
+
+                    <!-- Sección de Datos Encargado -->
+                    <section class="datos-encargado-wrapper">
+                        <div class="section-header">
+                            <h2>Datos Encargado</h2>
+                        </div>
+                        <table id="datos-encargado-table">
+                            <thead>
+                                <tr>
+                                    <th>Caja</th>
+                                    <th>Cuenta Efectivo (Q)</th>
+                                    <th>Venta Tarjeta (Q)</th>
+                                    <th>Venta Motorista (Q)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Caja 1</td>
+                                    <td class="datos-encargado-cuenta-efectivo">0.00</td>
+                                    <td class="datos-encargado-venta-tarjeta">0.00</td>
+                                    <td class="datos-encargado-venta-motorista">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Caja 2</td>
+                                    <td class="datos-encargado-cuenta-efectivo">0.00</td>
+                                    <td class="datos-encargado-venta-tarjeta">0.00</td>
+                                    <td class="datos-encargado-venta-motorista">0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Caja 3</td>
+                                    <td class="datos-encargado-cuenta-efectivo">0.00</td>
+                                    <td class="datos-encargado-venta-tarjeta">0.00</td>
+                                    <td class="datos-encargado-venta-motorista">0.00</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total</th>
+                                    <th id="total-cuenta-efectivo">0.00</th>
+                                    <th id="total-venta-tarjeta">0.00</th>
+                                    <th id="total-venta-motorista">0.00</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </section>
+
+                    <!-- Sección de Datos Sistema -->
+                    <section class="datos-sistema-wrapper">
+                        <div class="section-header">
+                            <h2>Datos Sistema</h2>
+                            <button type="button" class="instruction-btn" data-seccion="datos-sistema">?</button>
+                        </div>
+                        <table id="datos-sistema-table">
+                            <thead>
+                                <tr>
+                                    <th>Caja</th>
+                                    <th>Cuenta Efectivo (Q)</th>
+                                    <th>Venta Tarjeta (Q)</th>
+                                    <th>Venta Motorista (Q)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Caja 1</td>
+                                    <td><input type="number" class="datos-sistema-cuenta-efectivo" min="0" step="0.01"></td>
+                                    <td><input type="number" class="datos-sistema-venta-tarjeta" min="0" step="0.01"></td>
+                                    <td><input type="number" class="datos-sistema-venta-motorista" min="0" step="0.01"></td>
+                                </tr>
+                                <tr>
+                                    <td>Caja 2</td>
+                                    <td><input type="number" class="datos-sistema-cuenta-efectivo" min="0" step="0.01"></td>
+                                    <td><input type="number" class="datos-sistema-venta-tarjeta" min="0" step="0.01"></td>
+                                    <td><input type="number" class="datos-sistema-venta-motorista" min="0" step="0.01"></td>
+                                </tr>
+                                <tr>
+                                    <td>Caja 3</td>
+                                    <td><input type="number" class="datos-sistema-cuenta-efectivo" min="0" step="0.01"></td>
+                                    <td><input type="number" class="datos-sistema-venta-tarjeta" min="0" step="0.01"></td>
+                                    <td><input type="number" class="datos-sistema-venta-motorista" min="0" step="0.01"></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total</th>
+                                    <th id="total-sistema-cuenta-efectivo">0.00</th>
+                                    <th id="total-sistema-venta-tarjeta">0.00</th>
+                                    <th id="total-sistema-venta-motorista">0.00</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </section>
+                </section>
+
+                <!-- Columna de Totales -->
+                <section class="totales-wrapper">
+                    <div class="section-header">
+                        <h2>Totales</h2>
+                        <button class="instruction-btn" data-seccion="totales">?</button>
+                    </div>
+
+                    <!-- Información de Cuadre -->
+                    <section class="info-wrapper">
+                        <form id="info-form" class="info-form">
+                            <div class="info-row">
+                                <div class="info-group">
+                                    <label for="sucursal">Sucursal:</label>
+                                    <input type="text" id="sucursal" name="sucursal" readonly>
+                                </div>
+                                <div class="info-group">
+                                    <label for="fecha">Fecha:</label>
+                                    <input type="date" id="fecha" name="fecha" required>
+                                </div>
+                                <div class="info-group">
+                                    <label for="caja-chica-inicial">Caja Chica Inicial (Q):</label>
+                                    <input type="number" id="caja-chica-inicial" name="caja-chica-inicial" min="0" step="0.01" required>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+
+                    <!-- Mostrar ID Cuadre como texto -->
+                    <p><strong>ID Cuadre: <span id="id-cuadre-text">1</span></strong></p>
+
+                    <!-- Totales Globales -->
+                    <div id="totales-globales" class="totales-segmented">
+                        <div class="segment">
+                            <p><strong>Venta Efectivo Cajas: Q<span id="venta-efectivo-cajas">0.00</span></strong></p>
+                            <p><strong>Venta Tarjeta: Q<span id="venta-tarjeta-total">0.00</span></strong></p>
+                            <p><strong>Venta Motorista: Q<span id="venta-motorista-total">0.00</span></strong></p>
+                            <p><strong>Pedidos Ya: Q<span id="venta-pedidos-ya-total">0.00</span></strong></p>
+                            <p class="highlight"><strong>Total Ventas: Q<span id="total-ventas">0.00</span></strong></p>
+                        </div>
+                        <hr>
+                        <div class="segment">
+                            <p><strong>Sobrante Ayer: Q<input type="number" id="sobrante-ayer" min="0" step="0.01" value="0" required></strong></p>
+                            <p><strong>Venta Efectivo: Q<span id="venta-efectivo">0.00</span></strong></p>
+                        </div>
+                        <hr>
+                        <div class="segment">
+                            <p><strong>Gastos: Q<span id="venta-total-gastos">0.00</span></strong></p>
+                        </div>
+                        <hr>
+                        <div class="segment">
+                            <p class="highlight"><strong>Total a Depositar: Q<span id="total-depositar">0.00</span></strong></p>
+                        </div>
+                        <hr>
+                        <!-- Control Administrativo -->
+                        <div class="segment">
+                            <h3>Control Administrativo</h3>
+                            <p><strong>Diferencia Efectivo: Q<span id="diferencia-efectivo">0.00</span></strong></p>
+                            <p><strong>Diferencia Tarjeta: Q<span id="diferencia-tarjeta">0.00</span></strong></p>
+                            <p><strong>Diferencia Motorista: Q<span id="diferencia-motorista">0.00</span></strong></p>
+                            <p class="highlight"><strong>Diferencia Total: Q<span id="diferencia-total">0.00</span></strong></p>
+                        </div>
+                    </div>
+                    <!-- Botón de Guardar Cuadre -->
+                    <button class="guardar-cuadre-btn" id="guardar-cuadre-btn">Guardar Cuadre</button>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cuadre de Caja - Login</title>
+  <!-- Enlace al archivo CSS global -->
+  <link rel="stylesheet" href="../stylesGlobal.css">
+  <!-- Enlace a la librería de SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Firebase App -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <!-- Firebase Firestore -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <!-- Enlace al archivo db.js -->
+  <script src="../db.js" defer></script>
+  <!-- Enlace al archivo login.js -->
+  <script src="login.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <main>
+      <div class="login-wrapper">
+        <h1>Iniciar Sesión</h1>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="usuario">Usuario:</label>
+            <select id="usuario" name="usuario" required>
+              <option value="" disabled selected>Seleccione un usuario</option>
+              <!-- Opciones generadas dinámicamente -->
+            </select>
+          </div>
+          <button type="submit" class="boton-inicio">Iniciar Sesión</button>
+        </form>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

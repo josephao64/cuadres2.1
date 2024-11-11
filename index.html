@@ -2,146 +2,28 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Cuadre de Caja</title>
-    <!-- Enlace al archivo CSS externo -->
-    <link rel="stylesheet" href="styles.css">
+    <title>Cuadre de Caja - Inicio</title>
+    <!-- Enlace al archivo CSS global -->
+    <link rel="stylesheet" href="stylesGlobal.css">
     <!-- Enlace a la librería de SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Enlace a la librería de html2canvas -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Enlace al archivo db.js -->
+    <script src="db.js" defer></script>
+    <!-- Enlace al archivo index.js -->
+    <script src="index.js" defer></script>
 </head>
 <body>
     <div class="container">
-        <!-- Secciones Principales -->
         <main>
-            <div class="sections-container" id="sections-container">
-                <!-- Columna de Cajas -->
-                <section class="cajas-wrapper" id="cajas-container">
-                    <div class="section-header">
-                        <h2>Cajas</h2>
-                        <button class="instruction-btn" data-seccion="cajas">?</button>
-                    </div>
-                    <!-- Las cajas se agregarán aquí automáticamente -->
-                </section>
-
-                <!-- Columna de Ventas y Gastos -->
-                <section class="ventas-gastos-wrapper">
-                    <!-- Sección de Ventas -->
-                    <div class="ventas-wrapper">
-                        <div class="section-header">
-                            <h2>Ventas</h2>
-                            <button type="button" class="instruction-btn" data-seccion="ventas">?</button>
-                        </div>
-                        <div class="venta-secciones">
-                            <!-- Venta Tarjeta -->
-                            <div class="venta-wrapper">
-                                <label for="venta-tarjeta">Venta Tarjeta (Q):</label>
-                                <input type="number" id="venta-tarjeta" name="venta-tarjeta" min="0" step="0.01" required>
-                            </div>
-
-                            <!-- Venta Motorista -->
-                            <div class="venta-wrapper">
-                                <label for="venta-motorista">Venta Motorista (Q):</label>
-                                <input type="number" id="venta-motorista" name="venta-motorista" min="0" step="0.01" required>
-                                <button type="button" class="toggle-btn" data-target="venta-motorista">Deshabilitar</button>
-                            </div>
-
-                            <!-- Pedidos Ya -->
-                            <div class="venta-wrapper">
-                                <label for="venta-pedidos-ya">Pedidos Ya (Q):</label>
-                                <input type="number" id="venta-pedidos-ya" name="venta-pedidos-ya" min="0" step="0.01" required>
-                                <button type="button" class="toggle-btn" data-target="venta-pedidos-ya">Deshabilitar</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sección de Gastos -->
-                    <div class="gastos-wrapper">
-                        <div class="section-header">
-                            <h2>Gastos</h2>
-                            <button type="button" class="instruction-btn" data-seccion="gastos">?</button>
-                        </div>
-                        <table id="gastos-table">
-                            <thead>
-                                <tr>
-                                    <th>Descripción</th>
-                                    <th>Número Factura</th>
-                                    <th>Total (Q)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="gasto-row">
-                                    <td><input type="text" class="descripcion-gasto" placeholder="Descripción" required></td>
-                                    <td><input type="text" class="numero-factura-gasto" placeholder="Número Factura" required></td>
-                                    <td><input type="number" class="total-gasto" min="0" step="0.01" value="0.00" required></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="agregar-gasto-btn" id="agregar-gasto-btn">Agregar Gasto</button>
-                    </div>
-                </section>
-
-                <!-- Columna de Totales -->
-                <section class="totales-wrapper">
-                    <div class="section-header">
-                        <h2>Totales</h2>
-                        <button class="instruction-btn" data-seccion="totales">?</button>
-                    </div>
-
-                    <!-- Información de Cuadre -->
-                    <section class="info-wrapper">
-                        <form id="info-form" class="info-form">
-                            <div class="info-row">
-                                <div class="info-group">
-                                    <label for="sucursal">Sucursal:</label>
-                                    <input type="text" id="sucursal" name="sucursal" required>
-                                </div>
-                                <div class="info-group">
-                                    <label for="fecha">Fecha:</label>
-                                    <input type="date" id="fecha" name="fecha" required>
-                                </div>
-                                <div class="info-group">
-                                    <label for="caja-chica-inicial">Caja Chica Inicial (Q):</label>
-                                    <input type="number" id="caja-chica-inicial" name="caja-chica-inicial" min="0" step="0.01" required>
-                                </div>
-                            </div>
-                        </form>
-                    </section>
-
-                    <!-- Mostrar ID Cuadre como texto -->
-                    <p><strong>ID Cuadre: <span id="id-cuadre-text">1</span></strong></p>
-
-                    <!-- Totales Globales -->
-                    <div id="totales-globales" class="totales-segmented">
-                        <div class="segment">
-                            <p><strong>Venta Efectivo Cajas: Q<span id="venta-efectivo-cajas">0.00</span></strong></p>
-                            <p><strong>Venta Tarjeta: Q<span id="venta-tarjeta-total">0.00</span></strong></p>
-                            <p><strong>Venta Motorista: Q<span id="venta-motorista-total">0.00</span></strong></p>
-                            <p><strong>Pedidos Ya: Q<span id="venta-pedidos-ya-total">0.00</span></strong></p>
-                            <p class="highlight"><strong>Total Ventas: Q<span id="total-ventas">0.00</span></strong></p>
-                        </div>
-                        <hr>
-                        <div class="segment">
-                            <p><strong>Sobrante Ayer: Q<input type="number" id="sobrante-ayer" min="0" step="0.01" value="0" required></strong></p>
-                            <p><strong>Venta Efectivo: Q<span id="venta-efectivo">0.00</span></strong></p>
-                        </div>
-                        <hr>
-                        <div class="segment">
-                            <p><strong>Gastos: Q<span id="venta-total-gastos">0.00</span></strong></p>
-                        </div>
-                        <hr>
-                        <div class="segment">
-                            <p class="highlight"><strong>Total a Depositar: Q<span id="total-depositar">0.00</span></strong></p>
-                        </div>
-                    </div>
-                    <!-- Botón de Guardar Cuadre -->
-                    <button class="guardar-cuadre-btn" id="guardar-cuadre-btn">Guardar Cuadre</button>
-                </section>
+            <div class="inicio-wrapper">
+                <h1>Bienvenido a Cuadre de Caja</h1>
+                <div class="botones-inicio">
+                    <button class="boton-inicio" id="nuevo-cuadre-btn">Realizar Nuevo Cuadre</button>
+                    <button class="boton-inicio" id="cuadres-realizados-btn">Cuadres Realizados</button>
+                </div>
+                <button class="boton-inicio" id="logout-btn">Cerrar Sesión</button>
             </div>
         </main>
     </div>
-
-    <!-- Enlace al archivo JavaScript externo -->
-    <script src="script.js"></script>
 </body>
 </html>
